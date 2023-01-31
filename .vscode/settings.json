@@ -1,0 +1,8 @@
+{
+    "python.envFile": "${workspaceFolder}/.vscode/.env",
+    "cmake.configureOnOpen": false,
+    "python.testing.pytestEnabled": true,
+    "python.testing.pytestArgs": [
+        "unit_tests"
+    ]
+}

@@ -1,0 +1,7 @@
+**/temp/
+**/__pycache__
+data
+.data
+*.onnx
+*.dat
+docs/**/build
