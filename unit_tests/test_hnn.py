@@ -5,9 +5,9 @@
 
 import torch
 import unittest
-from src.hnn.a2s_poisson_coding_sign_convert import A2SPoissonCodingSignConvert
-from src.hnn.s2a_global_rate_coding import S2AGlobalRateCoding
-from src.hnn.s2a_learnable_rate_coding import S2ALearnableRateCoding
+from hnn.hu.a2s_poisson_coding_sign_convert import A2SPoissonCodingSignConvert
+from hnn.hu.s2a_global_rate_coding import S2AGlobalRateCoding
+from hnn.hu.s2a_learnable_rate_coding import S2ALearnableRateCoding
 
 
 class TestHNN(unittest.TestCase):

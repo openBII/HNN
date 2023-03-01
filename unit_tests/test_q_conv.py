@@ -6,7 +6,7 @@
 import torch
 import unittest
 import logging
-from src.ann.q_conv2d import QConv2d
+from hnn.ann.q_conv2d import QConv2d
 
 
 class TestQConv2d(unittest.TestCase):

@@ -5,9 +5,9 @@
 
 import torch
 import unittest
-from src.snn.q_model import QModel
-from src.snn.q_linear import QLinear
-from src.snn.lif import QLIF
+from hnn.snn.q_model import QModel
+from hnn.snn.q_linear import QLinear
+from hnn.snn.lif import QLIF
 from spikingjelly.clock_driven import encoding
 
 

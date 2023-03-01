@@ -8,9 +8,9 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from src.ann.q_conv2d import QConv2d
-from src.ann.q_linear import QLinear
-from src.ann.q_model import QModel
+from hnn.ann.q_conv2d import QConv2d
+from hnn.ann.q_linear import QLinear
+from hnn.ann.q_model import QModel
 
 
 class Stem_v4(nn.Module):

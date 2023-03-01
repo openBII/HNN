@@ -5,9 +5,9 @@
 
 import torch
 import unittest
-from src.snn.q_module import QModule
-from src.snn.lif import LIF, QLIF
-from src.grad import FakeQuantizeINT28
+from hnn.snn.q_module import QModule
+from hnn.snn.lif import LIF, QLIF
+from hnn.grad import FakeQuantizeINT28
 
 
 class RefQLIF(QModule, LIF):

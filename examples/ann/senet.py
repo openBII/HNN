@@ -11,10 +11,10 @@ import torch
 import torch.nn as nn
 from torch import Tensor
 
-from src.ann.q_adaptive_avgpool2d import QAdaptiveAvgPool2d
-from src.ann.q_conv2d import QConv2d
-from src.ann.q_linear import QLinear
-from src.ann.q_model import QModel
+from hnn.ann.q_adaptive_avgpool2d import QAdaptiveAvgPool2d
+from hnn.ann.q_conv2d import QConv2d
+from hnn.ann.q_linear import QLinear
+from hnn.ann.q_model import QModel
 
 
 def conv3x3(in_planes: int, out_planes: int, stride: int = 1, groups: int = 1, dilation: int = 1, bias=True) \

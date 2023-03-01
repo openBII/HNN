@@ -11,8 +11,8 @@ import torch
 import torch.nn as nn
 from torch import Tensor
 
-from src.ann import QAdaptiveAvgPool2d, QAdd, QConv2d, QLinear, QModel
-from src.fuse_bn import fuse_modules
+from hnn.ann import QAdaptiveAvgPool2d, QAdd, QConv2d, QLinear, QModel
+from hnn.fuse_bn import fuse_modules
 
 try:
     from torch.hub import load_state_dict_from_url

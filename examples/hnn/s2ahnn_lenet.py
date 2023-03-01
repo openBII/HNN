@@ -6,11 +6,11 @@
 import torch
 import torch.nn as nn
 
-from src.ann.q_linear import QLinear
-from src.hnn.s2a_global_rate_coding import S2AGlobalRateCoding
-from src.snn.lif import QLIF
-from src.snn.q_conv2d import QConv2d
-from src.snn.q_model import QModel
+from hnn.ann.q_linear import QLinear
+from hnn.hu.s2a_global_rate_coding import S2AGlobalRateCoding
+from hnn.snn.lif import QLIF
+from hnn.snn.q_conv2d import QConv2d
+from hnn.snn.q_model import QModel
 
 
 class S2AHNNLeNet(QModel):

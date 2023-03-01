@@ -6,11 +6,11 @@
 import torch
 import torch.nn as nn
 
-from src.snn.lif import QLIF
-from src.snn.output_rate_coding import OutputRateCoding
-from src.snn.q_conv2d import QConv2d
-from src.snn.q_linear import QLinear
-from src.snn.q_model import QModel
+from hnn.snn.lif import QLIF
+from hnn.snn.output_rate_coding import OutputRateCoding
+from hnn.snn.q_conv2d import QConv2d
+from hnn.snn.q_linear import QLinear
+from hnn.snn.q_model import QModel
 
 
 class SNNVGG16(QModel):

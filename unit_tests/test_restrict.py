@@ -7,9 +7,9 @@ import unittest
 import torch
 import torch.nn as nn
 
-from src.ann.q_conv2d import QConv2d
-from src.ann.q_linear import QLinear
-from src.ann.q_model import QModel
+from hnn.ann.q_conv2d import QConv2d
+from hnn.ann.q_linear import QLinear
+from hnn.ann.q_model import QModel
 
 
 class LeNet(nn.Module):

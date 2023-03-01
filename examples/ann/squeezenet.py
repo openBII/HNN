@@ -9,9 +9,9 @@ import numpy as np
 import torch
 import torch.nn as nn
 
-from src.ann.q_adaptive_avgpool2d import QAdaptiveAvgPool2d
-from src.ann.q_conv2d import QConv2d
-from src.ann.q_model import QModel
+from hnn.ann.q_adaptive_avgpool2d import QAdaptiveAvgPool2d
+from hnn.ann.q_conv2d import QConv2d
+from hnn.ann.q_model import QModel
 
 
 class Fire(nn.Module):

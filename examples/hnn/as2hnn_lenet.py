@@ -6,12 +6,12 @@
 import torch
 import torch.nn as nn
 
-from src.ann.q_conv2d import QConv2d
-from src.hnn.a2s_poisson_coding_sign_convert import A2SPoissonCodingSignConvert
-from src.snn.lif import QLIF
-from src.snn.output_rate_coding import OutputRateCoding
-from src.snn.q_linear import QLinear
-from src.snn.q_model import QModel
+from hnn.ann.q_conv2d import QConv2d
+from hnn.hu.a2s_poisson_coding_sign_convert import A2SPoissonCodingSignConvert
+from hnn.snn.lif import QLIF
+from hnn.snn.output_rate_coding import OutputRateCoding
+from hnn.snn.q_linear import QLinear
+from hnn.snn.q_model import QModel
 
 
 class HNNLeNet(QModel):

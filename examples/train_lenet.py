@@ -15,8 +15,8 @@ from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 
 from examples.ann.lenet import QLeNet
-from src.ann.q_model import QModel
-from src.ann.q_module import QModule
+from hnn.ann.q_model import QModel
+from hnn.ann.q_module import QModule
 
 
 if __name__ == '__main__':

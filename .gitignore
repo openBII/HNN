@@ -5,3 +5,5 @@ data
 *.onnx
 *.dat
 docs/**/build
+dist
+*.egg-info/
