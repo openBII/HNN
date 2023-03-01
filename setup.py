@@ -8,7 +8,7 @@ with open(path.join(DIR, 'README.md')) as f:
 
 setup(
     name="hnn",
-    version="0.0.3.1",
+    version="0.0.3.2",
     packages=find_packages(exclude=["examples", "examples.*", "unit_tests", "unit_tests.*"]),
     keywords=["hybrid neural networks", "spiking neural networks", "quantization"],
     description="A programming framework based on PyTorch for hybrid neural networks with automatic quantization",
