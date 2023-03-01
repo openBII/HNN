@@ -98,7 +98,7 @@ class QModel(QModule, torch.nn.Module):
         self.pretrained = True
         return checkpoint
 
-    def quantize(self):
+    def quantize(self, keep_output_precision=True):
         '''对网络进行量化
         '''
         QModule.quantize(self)
@@ -107,7 +107,8 @@ class QModel(QModule, torch.nn.Module):
             if isinstance(module, QModule) and not(isinstance(module, QModel)):
                 module.quantize()
                 last_module = module
-        last_module.is_last_node = True
+        if keep_output_precision:
+            last_module.is_last_node = True
 
     def aware(self):
         '''将网络置于量化感知训练的模式
