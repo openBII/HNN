@@ -12,9 +12,9 @@ HNN编程框架的详细开发及使用文档请见工程文档。
 
 ## 基本使用
 
-安装相关依赖：
+通过pip安装：
 ```bash
-pip install -r requirement.txt
+pip install hnn
 ```
 
 注：目前因为ONNX版本兼容问题，Pytorch需要使用1.11.0版本
