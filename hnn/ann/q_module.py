@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # See: https://spdx.org/licenses/
 
+import torch
 from abc import ABC, abstractmethod
 
 
@@ -49,6 +50,7 @@ class QModule(ABC):
         assert not(self.quantization_mode), 'Model has been quantized'
         self.quantization_mode = True
         self.aware_mode = False
+        self.restricted = False
         assert self.q_params_ready, 'Quantization cannot be executed unless quantization parameters have been collected'
 
     @abstractmethod
@@ -81,3 +83,13 @@ class QModule(ABC):
         '''
         self.restricted = True
         assert not(self.quantization_mode)
+
+    @staticmethod
+    def quantize_input(x: torch.Tensor):
+        x = x.div(x.abs().max()).mul(128).floor().clamp(-128, 127)
+        return x
+    
+    @staticmethod
+    def restrict_input(x: torch.Tensor):
+        x = x.div(x.abs().max()).mul(QModule.activation_absmax)
+        return x
