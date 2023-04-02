@@ -24,16 +24,19 @@ class QModel(QModule, torch.nn.Module):
         self.bit_shift_unit = bit_shift_unit
         self.pretrained: bool = False
         QModule.activation_absmax = activation_absmax
-        self.set_bit_shift_unit()
+        self.bit_shift_unit_set: bool = False
 
     def set_bit_shift_unit(self):
-        for _, module in self.named_modules():
-            if hasattr(module, 'bit_shift_unit'):
-                module.bit_shift_unit = self.bit_shift_unit
+        if not self.bit_shift_unit_set:
+            for _, module in self.named_modules():
+                if isinstance(module, QModule) and not(isinstance(module, QModel)):
+                    module.bit_shift_unit = self.bit_shift_unit
+            self.bit_shift_unit_set = True
 
     def collect_q_params(self):
         '''自动计算网络中所有算子的量化参数
         '''
+        self.set_bit_shift_unit()
         if not(self.pretrained):
             logging.warning(
                 'Collecting quantization parameters usually requires a pretrained model')
@@ -139,6 +142,7 @@ class QModel(QModule, torch.nn.Module):
     def restrict(self):
         '''将网络置于激活值受限的状态
         '''
+        self.set_bit_shift_unit()
         QModule.restrict(self)
         for _, module in self.named_modules():
             if isinstance(module, QModule) and not(isinstance(module, QModel)):

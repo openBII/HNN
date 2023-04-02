@@ -71,7 +71,6 @@ class QModule(ABC):
         '''
         self.quantization_mode = False
 
-    @abstractmethod
     def restrict(self):
         '''抽象方法, 用于对模型的激活值范围进行限制
 
