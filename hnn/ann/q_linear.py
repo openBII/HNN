@@ -27,7 +27,7 @@ class QLinear(QModule, torch.nn.Linear):
         self.bit_shift = None
         self.is_last_node = is_last_node
 
-    def collect_q_params(self, bit_shift_unit):
+    def collect_q_params(self):
         '''全连接中计算量化参数
 
         weight_absmax * weight_scale = 128
@@ -38,12 +38,12 @@ class QLinear(QModule, torch.nn.Linear):
         '''
         QModule.collect_q_params(self)
         weight_absmax = self.weight.data.abs().max()
-        temp = math.log(128 / weight_absmax, 2) / bit_shift_unit
+        temp = math.log(128 / weight_absmax, 2) / self.bit_shift_unit
         if temp - math.floor(temp) >= 0.75:  # 经验公式
             n = math.ceil(temp)
         else:
             n = math.floor(temp)
-        self.bit_shift = bit_shift_unit * n
+        self.bit_shift = self.bit_shift_unit * n
         self.weight_scale = 2 ** self.bit_shift
 
     def forward(self, x: torch.Tensor):
@@ -84,7 +84,4 @@ class QLinear(QModule, torch.nn.Linear):
             self.weight.data, self.weight_scale)
         self.bias.data = FakeQuantizeINT32.apply(
             self.bias.data, self.weight_scale * 128 / QModule.activation_absmax)
-
-    def restrict(self, bit_shift_unit):
-        QModule.restrict(self)
-        self.bit_shift_unit = bit_shift_unit
+        

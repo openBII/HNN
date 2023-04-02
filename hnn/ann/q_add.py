@@ -21,7 +21,7 @@ class QAdd(QModule, torch.nn.Module):
         self.bit_shift = None
         self.is_last_node = is_last_node
 
-    def collect_q_params(self, _):
+    def collect_q_params(self):
         '''计算张量加的量化参数
 
         如果采用先限制激活再量化的方法, 则量化参数为固定值, 在完成定点数张量加之后不需要进行特殊处理
@@ -58,7 +58,4 @@ class QAdd(QModule, torch.nn.Module):
         if self.quantization_mode:
             self.dequantize()
         QModule.aware(self)
-
-    def restrict(self, bit_shift_unit):
-        QModule.restrict(self)
-        self.bit_shift_unit = bit_shift_unit
+        

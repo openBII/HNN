@@ -30,9 +30,9 @@ class QAdaptiveAvgPool2d(QModule, torch.nn.AdaptiveAvgPool2d):
         self.kernel_size = kernel_size
         self.is_last_node = is_last_node
 
-    def collect_q_params(self, bit_shift_unit):
+    def collect_q_params(self):
         QModule.collect_q_params(self)
-        self.bit_shift = bit_shift_unit * round(math.log(self.kernel_size, 2))
+        self.bit_shift = self.bit_shift_unit * round(math.log(self.kernel_size, 2))
         self.absmax = 2 ** self.bit_shift / self.kernel_size ** 2
 
     def forward(self, x: torch.Tensor):
@@ -49,7 +49,7 @@ class QAdaptiveAvgPool2d(QModule, torch.nn.AdaptiveAvgPool2d):
             assert not(
                 self.aware_mode), 'Quantization mode and QAT mode are mutual exclusive'
             out = out.mul(self.kernel_size ** 2).clamp(-2147483648, 2147483647).div(2 **
-                                                                                   self.bit_shift).floor().clamp(-128, 127)
+                                                                                    self.bit_shift).floor().clamp(-128, 127)
         if self.is_last_node:
             out = out.clamp(-2147483648, 2147483647)
         return out
@@ -65,7 +65,7 @@ class QAdaptiveAvgPool2d(QModule, torch.nn.AdaptiveAvgPool2d):
             self.dequantize()
         QModule.aware(self)
 
-    def restrict(self, bit_shift_unit):
+    def restrict(self):
         '''平均池化量化参数的计算在restrict方法中完成
 
         y = (x1 + x2 + ... + x_kernel_size) / kernel_size^2
@@ -75,6 +75,5 @@ class QAdaptiveAvgPool2d(QModule, torch.nn.AdaptiveAvgPool2d):
         128 * kernel_size^2 / 2^bit_shift y = (128x1 + 128x2 + ... + 128x_kernel_size) / 2^bit_shift
         '''
         QModule.restrict(self)
-        self.bit_shift_unit = bit_shift_unit
-        self.bit_shift = bit_shift_unit * round(math.log(self.kernel_size, 2))
+        self.bit_shift = self.bit_shift_unit * round(math.log(self.kernel_size, 2))
         self.absmax = 2 ** self.bit_shift / self.kernel_size ** 2
