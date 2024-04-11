@@ -7,18 +7,21 @@ import torch
 import logging
 from typing import Dict
 from hnn.snn.q_module import QModule
+from hnn.snn.q_integrate import QIntegrate
+from hnn.snn.q_dynamics import QDynamics
+from hnn.snn.model import Model
+from hnn.snn.model import InputMode
 
 
-class QModel(QModule, torch.nn.Module):
+class QModel(QModule, Model):
     '''支持量化的网络模型需要继承于QModel类
 
     Attributes:
         T: SNN需要执行的时间步
     '''
-    def __init__(self, time_window_size: int = None):
+    def __init__(self, time_interval: int, mode: InputMode):
         QModule.__init__(self)
-        torch.nn.Module.__init__(self)
-        self.T = time_window_size
+        Model.__init__(self, time_interval=time_interval, mode=mode)
 
     def collect_q_params(self):
         '''递归地调用网络中所有算子的collect_q_params方法
@@ -28,11 +31,9 @@ class QModel(QModule, torch.nn.Module):
         if not(self.pretrained):
             logging.warning(
                 'Collecting quantization parameters usually requires a pretrained model')
-        QModule.collect_q_params(self)
         for _, module in self.named_modules():
-            if isinstance(module, QModule) and not(isinstance(module, QModel)):
-                if hasattr(module, 'collect_q_params'):
-                    module.collect_q_params()
+            if isinstance(module, QIntegrate):
+                module.collect_q_params()
 
     def calculate_q_params(self):
         '''计算量化参数
@@ -40,10 +41,8 @@ class QModel(QModule, torch.nn.Module):
         只有SNN中负责完成Integrate操作的算子, 例如卷积和全连接, 需要重载calculate_q_params方法
         '''
         for _, module in self.named_modules():
-            if isinstance(module, QModule) and not(isinstance(module, QModel)):
-                if hasattr(module, 'is_encoder'):
-                    if module.is_encoder:
-                        module.calculate_q_params()
+            if isinstance(module, QIntegrate):
+                module.calculate_q_params()
 
     def load_model(self, model_path: str, map_location=torch.device('cuda' if torch.cuda.is_available() else 'cpu')):
         '''加载浮点数预训练模型
@@ -111,6 +110,8 @@ class QModel(QModule, torch.nn.Module):
                 module.q_params_ready = True
                 module.quantization_mode = True
                 module.pretrained = True
+                if hasattr(module, 'freeze'):
+                    module.freeze = True
                 module.weight_scale = q_params_dict[name]['weight_scale']
                 if hasattr(module, 'if_node'):
                     module.if_node.fire.v_th = q_params_dict[name]['v_th_0']
@@ -164,7 +165,6 @@ class QModel(QModule, torch.nn.Module):
         refresh方法保证第二次推理过程中可以自动对输入进行量化, 但不会重复对脉冲神经元参数重复进行量化
         '''
         for _, module in self.named_modules():
-            if isinstance(module, QModule):
-                if hasattr(module, 'first_time'):
-                    module.first_time = True
-                    module.freeze = True
+            if isinstance(module, QDynamics):
+                module.first_time = True
+                module.freeze = True

@@ -7,4 +7,5 @@ class OutputRateCoding(torch.nn.Module):
         self.dim = dim
 
     def forward(self, x: torch.Tensor):
+        x = torch.stack(x, dim=0)
         return x.mean(dim=self.dim)

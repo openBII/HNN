@@ -19,14 +19,12 @@ class Neuron(QModel):
     '''
     def __init__(self, recorder, T):
         super(Neuron, self).__init__()
-        self.recorder = recorder
+        self.recorder = recorder.apply
         self.T = T
+        self.neuron = None
 
     def record(self, x: torch.Tensor) -> torch.Tensor:
-        return self.recorder.apply(x)
-
-    def _forward(self, *args):
-        return args
+        return self.recorder(x)
 
     def forward(self, *args):
-        return self._forward(self.record(args[0]), *args[1:])
+        return self.neuron(self.record(args[0]), *args[1:])
